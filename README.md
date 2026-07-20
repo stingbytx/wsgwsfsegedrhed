@@ -4,17 +4,16 @@ A production-ready, browser-based Point of Sale system. Business data (products,
 orders, customers, inventory, etc.) is stored **entirely in the browser via
 IndexedDB (Dexie.js)** — never on a server. Supabase is used **only for
 authentication** (email/password, email verification, password reset, Google
-sign-in). Subscription billing is handled through PayPal, with a small
-serverless webhook that flips the user's plan flag.
+sign-in). Any authenticated user has full, unlimited access to every feature
+— there is no subscription, billing, or feature gating.
 
 ## Tech Stack
 
 - Next.js 15/16 (App Router) + React 19 + TypeScript
-- Tailwind CSS, Framer Motion-ready UI primitives
+- Tailwind CSS
 - Zustand (app state), React Hook Form + Zod (forms/validation), TanStack Query
 - Dexie.js (IndexedDB) for all business data
 - Supabase Auth (email, Google OAuth, email verification, password reset)
-- PayPal Subscriptions API + webhook (Next.js Route Handler)
 
 ## 1. Install dependencies
 
@@ -34,12 +33,7 @@ cp .env.example .env.local
 |---|---|
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase Dashboard → Project Settings → API |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase Dashboard → Project Settings → API |
-| `SUPABASE_SERVICE_ROLE_KEY` | Supabase Dashboard → Project Settings → API (keep secret, server-only) |
 | `NEXT_PUBLIC_APP_URL` | Your deployed URL, e.g. `https://your-app.vercel.app` |
-| `PAYPAL_ENV` | `sandbox` while testing, `live` for production |
-| `PAYPAL_CLIENT_ID` / `PAYPAL_CLIENT_SECRET` | PayPal Developer Dashboard → Apps & Credentials |
-| `PAYPAL_WEBHOOK_ID` | Created in step 4 below |
-| `PAYPAL_PLAN_ID` | Created in step 4 below (a Billing Plan for your subscription) |
 
 ## 3. Supabase Auth setup
 
@@ -53,74 +47,52 @@ cp .env.example .env.local
 4. Email templates already point verification/reset links at `/auth/callback`
    and `/reset-password` respectively — no DB tables are required.
 
-**No Supabase database tables are created or needed.** Subscription plan is
-stored in the user's `user_metadata` (`plan` field), updated server-side by
-the PayPal webhook using the service role key.
+**No Supabase database tables are created or needed.** Supabase is used purely
+for identity — once a user is logged in, they get full access to the app.
 
-## 4. PayPal setup (sandbox first)
-
-1. Go to https://developer.paypal.com → Apps & Credentials → create a
-   **Sandbox** app. Copy Client ID/Secret into `.env.local`.
-2. Create a Product + Billing Plan (via PayPal API or dashboard) for your
-   recurring Premium subscription. Copy the Plan ID into `PAYPAL_PLAN_ID`.
-3. Go to your app → Webhooks → Add Webhook:
-   - URL: `https://your-app.vercel.app/api/paypal/webhook`
-   - Subscribe to events: `BILLING.SUBSCRIPTION.ACTIVATED`,
-     `BILLING.SUBSCRIPTION.RE-ACTIVATED`, `BILLING.SUBSCRIPTION.CANCELLED`,
-     `BILLING.SUBSCRIPTION.EXPIRED`, `BILLING.SUBSCRIPTION.SUSPENDED`,
-     `BILLING.SUBSCRIPTION.PAYMENT.FAILED`, `PAYMENT.SALE.COMPLETED`
-   - Copy the generated Webhook ID into `PAYPAL_WEBHOOK_ID`.
-4. In sandbox, you can test the full flow: Upgrade button → PayPal Checkout
-   (use a sandbox buyer account) → webhook fires → your plan flips to `ACTIVE`.
-
-## 5. Run locally
+## 4. Run locally
 
 ```bash
 npm run dev
 ```
 
 Visit http://localhost:3000 — sign up, verify your email, log in, and you're
-in the POS dashboard. All business data you create lives only in this
-browser's IndexedDB.
+in the POS dashboard with full access to every feature. All business data you
+create lives only in this browser's IndexedDB.
 
-## 6. Deploy to Vercel
+## 5. Deploy to Vercel
 
 1. Push this repo to GitHub.
 2. Import it in Vercel.
-3. Add all the environment variables from `.env.example` in
-   Project Settings → Environment Variables (Production + Preview).
+3. Add `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, and
+   `NEXT_PUBLIC_APP_URL` in Project Settings → Environment Variables
+   (Production + Preview).
 4. Redeploy after adding/changing env vars.
-5. Update the Supabase Redirect URLs and PayPal webhook URL to your final
-   Vercel domain.
+5. Update the Supabase Redirect URLs to your final Vercel domain.
 
-## Subscription states
+## Access model
 
-`FREE` → `TRIAL` → `ACTIVE` → `PAST_DUE` → `CANCELLED` → `EXPIRED`
-
-Free plan limits (enforced client-side against IndexedDB counts):
-100 products, 500 orders, 200 customers, 1 business profile.
-
-Premium unlocks: unlimited products/orders/customers/categories, advanced
-reports & profit analytics, barcode generation/printing, receipt/report
-printing, JSON backup & restore, priority support. Locked features show a
-🔒 icon and open an upgrade dialog linking to PayPal Checkout.
+Every signed-up, authenticated user has unlimited access: unlimited products,
+orders, customers, categories, advanced reports, profit analytics, barcode
+generation/printing, receipt/report printing, and JSON backup & restore.
+There is no free/premium split and no payment integration.
 
 ## Data & Backup
 
 - All business data: IndexedDB (via Dexie), scoped per logged-in user id.
 - Preferences only (theme, language, sidebar, currency, printer, last payment
   method): `localStorage`.
-- Settings → Backup & Restore lets Premium users export/import the entire
-  business as a single JSON file to move to another browser/device.
+- Settings → Backup & Restore lets any user export/import the entire business
+  as a single JSON file to move to another browser/device.
 
 ## Folder structure
 
 ```
 src/
-  app/            Next.js routes (auth pages, (app) authenticated group, API routes)
-  components/     Reusable UI (ui/, layout/, billing/, ...)
+  app/            Next.js routes (auth pages, (app) authenticated group)
+  components/     Reusable UI (ui/, layout/, ...)
   hooks/          useDb, useDashboardStats, ...
-  lib/            supabase clients, dexie db, paypal helper, plan limits, utils
+  lib/            supabase clients, dexie db, utils
   services/       orders.ts (sale/hold/refund logic), backup.ts
   stores/         zustand stores: auth, cart, ui
   types/          shared TypeScript types

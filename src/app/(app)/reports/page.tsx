@@ -1,18 +1,15 @@
 "use client";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useDb } from "@/hooks/use-db";
-import { useAuthStore } from "@/stores/auth-store";
 import { useUIStore } from "@/stores/ui-store";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { PremiumLock } from "@/components/billing/premium-lock";
 import { formatCurrency } from "@/lib/utils";
 import { Download } from "lucide-react";
 import { startOfDay, startOfWeek, startOfMonth, startOfYear } from "date-fns";
 
 export default function ReportsPage() {
   const db = useDb();
-  const isPremium = useAuthStore((s) => s.isPremium);
   const { currencySymbol } = useUIStore();
   const orders = useLiveQuery(() => (db ? db.orders.toArray() : []), [db]) ?? [];
   const expenses = useLiveQuery(() => (db ? db.expenses.toArray() : []), [db]) ?? [];
@@ -88,15 +85,12 @@ export default function ReportsPage() {
         </Card>
       </div>
 
-      <Card className={!isPremium ? "opacity-60" : ""}>
+      <Card>
         <CardHeader>
-          <CardTitle>
-            <PremiumLock label="Advanced Reports">Advanced Reports &amp; Profit Analytics</PremiumLock>
-          </CardTitle>
+          <CardTitle>Advanced Reports &amp; Profit Analytics</CardTitle>
         </CardHeader>
         <CardContent className="text-sm text-slate-500">
-          Profit margins by product, cost trend analysis, customer lifetime value, and PDF/Excel export are available on
-          the Premium plan.
+          Profit margins by product, cost trend analysis, and customer lifetime value.
         </CardContent>
       </Card>
     </div>

@@ -2,19 +2,16 @@
 import { useState, useRef } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useDb } from "@/hooks/use-db";
-import { useAuthStore } from "@/stores/auth-store";
 import { useUIStore } from "@/stores/ui-store";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input, Label } from "@/components/ui/input";
-import { PremiumLock } from "@/components/billing/premium-lock";
 import { exportBackup, downloadBackup, restoreBackup } from "@/services/backup";
 import { toast } from "sonner";
 import { Download, Upload } from "lucide-react";
 
 export default function SettingsPage() {
   const db = useDb();
-  const isPremium = useAuthStore((s) => s.isPremium);
   const { currency, currencySymbol, setCurrency, theme, setTheme, language, setLanguage } = useUIStore();
   const settings = useLiveQuery(() => db?.settings.get("default"), [db]);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -115,37 +112,19 @@ export default function SettingsPage() {
             previous backup.
           </p>
           <div className="flex gap-3">
-            {isPremium ? (
-              <Button variant="outline" onClick={handleBackup}>
-                <Download className="h-4 w-4" /> Download Backup (JSON)
-              </Button>
-            ) : (
-              <PremiumLock label="Backup & Restore">
-                <Button variant="outline" type="button">
-                  <Download className="h-4 w-4" /> Download Backup (JSON)
-                </Button>
-              </PremiumLock>
-            )}
-            {isPremium ? (
-              <>
-                <Button variant="outline" onClick={() => fileRef.current?.click()}>
-                  <Upload className="h-4 w-4" /> Restore from JSON
-                </Button>
-                <input
-                  ref={fileRef}
-                  type="file"
-                  accept="application/json"
-                  className="hidden"
-                  onChange={(e) => e.target.files?.[0] && handleRestore(e.target.files[0])}
-                />
-              </>
-            ) : (
-              <PremiumLock label="Backup & Restore">
-                <Button variant="outline" type="button">
-                  <Upload className="h-4 w-4" /> Restore from JSON
-                </Button>
-              </PremiumLock>
-            )}
+            <Button variant="outline" onClick={handleBackup}>
+              <Download className="h-4 w-4" /> Download Backup (JSON)
+            </Button>
+            <Button variant="outline" onClick={() => fileRef.current?.click()}>
+              <Upload className="h-4 w-4" /> Restore from JSON
+            </Button>
+            <input
+              ref={fileRef}
+              type="file"
+              accept="application/json"
+              className="hidden"
+              onChange={(e) => e.target.files?.[0] && handleRestore(e.target.files[0])}
+            />
           </div>
         </CardContent>
       </Card>

@@ -40,7 +40,7 @@ export default function SignupPage() {
       email: values.email,
       password: values.password,
       options: {
-        data: { store_name: values.storeName, plan: "FREE" },
+        data: { store_name: values.storeName },
         emailRedirectTo: `${window.location.origin}/auth/callback`,
       },
     });
@@ -58,7 +58,7 @@ export default function SignupPage() {
         <div className="text-center mb-6">
           <div className="mx-auto mb-3 h-12 w-12 rounded-2xl bg-[#0070E0] flex items-center justify-center text-white font-bold text-xl">U</div>
           <h1 className="text-2xl font-semibold text-slate-800">Create your account</h1>
-          <p className="text-sm text-slate-500 mt-1">Free plan — no card required</p>
+          <p className="text-sm text-slate-500 mt-1">Full access, no subscription needed</p>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>

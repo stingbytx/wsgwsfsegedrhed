@@ -1,8 +1,7 @@
 // Server-side Supabase client for Route Handlers / Server Components.
-// Used for auth session reads and, for the PayPal webhook, an admin client.
+// Used for reading the auth session in Route Handlers / Server Components.
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
-import { createClient as createSupabaseAdmin } from "@supabase/supabase-js";
 
 export async function createClient() {
   const cookieStore = await cookies();
@@ -25,18 +24,5 @@ export async function createClient() {
         },
       },
     }
-  );
-}
-
-/**
- * Admin client using the SERVICE ROLE KEY. Server-only (route handlers).
- * Used exclusively to update subscription metadata from the PayPal webhook.
- * NEVER import this from client components.
- */
-export function createAdminClient() {
-  return createSupabaseAdmin(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    { auth: { autoRefreshToken: false, persistSession: false } }
   );
 }

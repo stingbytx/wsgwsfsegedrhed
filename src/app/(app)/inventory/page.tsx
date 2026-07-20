@@ -2,34 +2,22 @@
 import { useState } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useDb } from "@/hooks/use-db";
-import { useAuthStore } from "@/stores/auth-store";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input, Label } from "@/components/ui/input";
 import { generateId, formatCurrency, nowIso } from "@/lib/utils";
 import { useUIStore } from "@/stores/ui-store";
-import { isOverLimit } from "@/lib/plan-limits";
-import { UpgradeDialog } from "@/components/billing/upgrade-dialog";
-import { PremiumLock } from "@/components/billing/premium-lock";
 import { toast } from "sonner";
 import { Plus, Barcode, X } from "lucide-react";
 import type { Product } from "@/types";
 
 export default function InventoryPage() {
   const db = useDb();
-  const plan = useAuthStore((s) => s.plan);
   const { currencySymbol } = useUIStore();
   const products = useLiveQuery(() => (db ? db.products.toArray() : []), [db]) ?? [];
   const [showForm, setShowForm] = useState(false);
-  const [upgradeOpen, setUpgradeOpen] = useState(false);
 
-  const handleAddClick = () => {
-    if (isOverLimit(plan, "products", products.length)) {
-      setUpgradeOpen(true);
-      return;
-    }
-    setShowForm(true);
-  };
+  const handleAddClick = () => setShowForm(true);
 
   return (
     <div className="p-6 space-y-4">
@@ -39,11 +27,9 @@ export default function InventoryPage() {
           <p className="text-sm text-slate-500">{products.length} products</p>
         </div>
         <div className="flex gap-2">
-          <PremiumLock label="Barcode Labels">
-            <Button variant="outline" size="sm">
-              <Barcode className="h-4 w-4" /> Barcode Labels
-            </Button>
-          </PremiumLock>
+          <Button variant="outline" size="sm">
+            <Barcode className="h-4 w-4" /> Barcode Labels
+          </Button>
           <Button onClick={handleAddClick}>
             <Plus className="h-4 w-4" /> Add Product
           </Button>
@@ -94,7 +80,6 @@ export default function InventoryPage() {
         setShowForm(false);
       }} />}
 
-      <UpgradeDialog open={upgradeOpen} onClose={() => setUpgradeOpen(false)} featureLabel="Unlimited Products" />
     </div>
   );
 }

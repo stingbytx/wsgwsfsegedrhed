@@ -4,16 +4,6 @@
 
 export type ID = string;
 
-export type SubscriptionPlan = "FREE" | "TRIAL" | "ACTIVE" | "PAST_DUE" | "CANCELLED" | "EXPIRED";
-
-export interface SubscriptionState {
-  plan: SubscriptionPlan;
-  isPremium: boolean;
-  paypalSubscriptionId?: string | null;
-  currentPeriodEnd?: string | null;
-  updatedAt?: string | null;
-}
-
 export interface Product {
   id: ID;
   name: string;

@@ -8,12 +8,10 @@ import {
   Users,
   BarChart3,
   Settings,
-  CreditCard,
   LogOut,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
-import { useAuthStore } from "@/stores/auth-store";
 
 const NAV = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -21,14 +19,12 @@ const NAV = [
   { href: "/inventory", label: "Inventory", icon: Package },
   { href: "/customers", label: "Customers", icon: Users },
   { href: "/reports", label: "Reports", icon: BarChart3 },
-  { href: "/billing", label: "Billing", icon: CreditCard },
   { href: "/settings", label: "Settings", icon: Settings },
 ];
 
 export function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
-  const plan = useAuthStore((s) => s.plan);
 
   const signOut = async () => {
     const supabase = createClient();
@@ -42,13 +38,8 @@ export function Sidebar() {
         <div className="h-9 w-9 rounded-xl bg-[#0070E0] flex items-center justify-center text-white font-bold">U</div>
         <div>
           <p className="font-semibold text-slate-800 leading-tight">Universal POS</p>
-          <span
-            className={cn(
-              "text-[10px] font-semibold px-1.5 py-0.5 rounded-full",
-              plan === "ACTIVE" || plan === "TRIAL" ? "bg-[#009CDE]/10 text-[#009CDE]" : "bg-slate-100 text-slate-500"
-            )}
-          >
-            {plan}
+          <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-[#009CDE]/10 text-[#009CDE]">
+            Full Access
           </span>
         </div>
       </div>
