@@ -1,7 +1,15 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { SiteHeader } from "@/components/marketing/site-header";
+
+export const metadata: Metadata = {
+  title: "UniPOS | Modern Cloud Point of Sale (POS) Software for Businesses",
+  description:
+    "UniPOS is a modern cloud-based Point of Sale (POS) software for retailers, restaurants, caf\u00e9s, supermarkets, pharmacies, and businesses. Manage sales, inventory, customers, billing, reports, and more from anywhere.",
+  alternates: { canonical: "/" },
+};
 
 export default async function RootPage() {
   const supabase = await createClient();

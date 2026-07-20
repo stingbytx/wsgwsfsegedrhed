@@ -1,4 +1,26 @@
+import type { Metadata } from "next";
 import { MarketingPageShell } from "@/components/marketing/page-shell";
+
+export const metadata: Metadata = {
+  title: "Contact UniPOS | Customer Support & Business Inquiries",
+  description:
+    "Contact UniPOS for technical support, sales inquiries, partnerships, and customer service. Our team is ready to assist your business.",
+  keywords: [
+    "UniPOS contact",
+    "POS support",
+    "customer service",
+    "technical support",
+    "business inquiries",
+    "DotcomOne support",
+  ],
+  alternates: { canonical: "/contact" },
+  openGraph: {
+    title: "Contact UniPOS | Customer Support & Business Inquiries",
+    description:
+      "Contact UniPOS for technical support, sales inquiries, partnerships, and customer service. Our team is ready to assist your business.",
+    url: "/contact",
+  },
+};
 
 export default function ContactPage() {
   return (

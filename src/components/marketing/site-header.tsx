@@ -2,8 +2,8 @@
 import Link from "next/link";
 
 const LINKS = [
-  { href: "/about", label: "about us" },
-  { href: "/terms", label: "terms & conditions" },
+  { href: "/about-us", label: "about us" },
+  { href: "/terms-and-conditions", label: "terms & conditions" },
   { href: "/contact", label: "contact us" },
 ];
 
