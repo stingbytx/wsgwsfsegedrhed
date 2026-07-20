@@ -23,6 +23,11 @@ export function MarketingPageShell({ title, children }: { title: string; childre
           </Link>
         </main>
       </div>
+      <footer className="text-center text-xs text-slate-400 py-6 px-4">
+        © 2026 UniPOS. All rights reserved.
+        <br />
+        Proudly made in Sri Lanka
+      </footer>
     </div>
   );
 }

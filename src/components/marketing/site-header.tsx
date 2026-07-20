@@ -10,7 +10,7 @@ const LINKS = [
 export function SiteHeader() {
   return (
     <header className="flex items-center justify-between px-6 sm:px-10 py-6">
-      <Link href="/" className="font-black tracking-tight text-lg text-slate-900">
+      <Link href="/" className="font-black uppercase tracking-widest text-sm text-slate-900">
         UniPOS
       </Link>
       <nav className="hidden sm:flex items-center gap-8">
