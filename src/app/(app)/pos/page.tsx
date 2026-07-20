@@ -8,11 +8,13 @@ import { useAuthStore } from "@/stores/auth-store";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { formatCurrency, generateId, nowIso } from "@/lib/utils";
+import { formatCurrency } from "@/lib/utils";
 import { completeSale, holdOrder } from "@/services/orders";
+import { CustomerPicker } from "@/components/pos/customer-picker";
+import { Receipt } from "@/components/pos/receipt";
 import { toast } from "sonner";
-import { Search, Minus, Plus, Trash2, PauseCircle, Percent, Printer } from "lucide-react";
-import type { Product, PaymentMethod, HeldOrder } from "@/types";
+import { Search, Minus, Plus, Trash2, PauseCircle, Percent, Printer, X } from "lucide-react";
+import type { Product, PaymentMethod, HeldOrder, Order, Customer, BusinessSettings } from "@/types";
 
 export default function PosPage() {
   const db = useDb();
@@ -23,12 +25,15 @@ export default function PosPage() {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [showHeld, setShowHeld] = useState(false);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
+  const [receiptOrder, setReceiptOrder] = useState<Order | null>(null);
   const barcodeBuffer = useRef("");
 
   const allProducts = useLiveQuery(() => (db ? db.products.toArray() : []), [db]) ?? [];
   const products = useMemo(() => allProducts.filter((p) => p.isActive), [allProducts]);
   const categories = useLiveQuery(() => (db ? db.categories.toArray() : []), [db]) ?? [];
   const heldOrders = useLiveQuery(() => (db ? db.heldOrders.toArray() : []), [db]) ?? [];
+  const customers = useLiveQuery(() => (db ? db.customers.toArray() : []), [db]) ?? [];
+  const settings = useLiveQuery(() => (db ? db.settings.get("default") : undefined), [db]);
 
   const filtered = useMemo(() => {
     return products.filter((p) => {
@@ -36,7 +41,7 @@ export default function PosPage() {
         !search ||
         p.name.toLowerCase().includes(search.toLowerCase()) ||
         p.sku.toLowerCase().includes(search.toLowerCase()) ||
-        p.barcode?.includes(search);
+        (p.barcode ?? "").includes(search);
       const matchesCategory = !activeCategory || p.categoryId === activeCategory;
       return matchesSearch && matchesCategory;
     });
@@ -50,11 +55,17 @@ export default function PosPage() {
       if (e.key === "Enter") {
         const code = barcodeBuffer.current;
         barcodeBuffer.current = "";
+        if (!code) return;
         const product = products.find((p) => p.barcode === code);
-        if (product) cart.addProduct(product);
+        if (product) {
+          cart.addProduct(product);
+          toast.success(`Added ${product.name}`);
+        } else {
+          toast.error(`No product with barcode ${code}`);
+        }
         return;
       }
-      barcodeBuffer.current += e.key;
+      if (e.key.length === 1) barcodeBuffer.current += e.key;
       clearTimeout(timeout);
       timeout = setTimeout(() => (barcodeBuffer.current = ""), 300);
     };
@@ -64,6 +75,7 @@ export default function PosPage() {
 
   const total = selectTotal(cart);
   const subtotal = cart.items.reduce((s, i) => s + i.price * i.quantity, 0);
+  const selectedCustomer = customers.find((c) => c.id === cart.customerId) ?? null;
 
   const handleHold = async () => {
     if (!db || cart.items.length === 0) return;
@@ -129,13 +141,16 @@ export default function PosPage() {
 
       {/* Right: cart */}
       <div className="w-96 shrink-0 border-l border-slate-100 bg-white flex flex-col">
-        <div className="p-4 border-b border-slate-100 flex items-center justify-between">
-          <h2 className="font-semibold text-slate-800">Current Order</h2>
-          {cart.items.length > 0 && (
-            <button onClick={cart.clear} className="text-xs text-red-500 hover:underline">
-              Clear
-            </button>
-          )}
+        <div className="p-4 border-b border-slate-100 space-y-3">
+          <div className="flex items-center justify-between">
+            <h2 className="font-semibold text-slate-800">Current Order</h2>
+            {cart.items.length > 0 && (
+              <button onClick={cart.clear} className="text-xs text-red-500 hover:underline">
+                Clear
+              </button>
+            )}
+          </div>
+          <CustomerPicker selectedCustomerId={cart.customerId} onSelect={cart.setCustomer} />
         </div>
         <div className="flex-1 overflow-y-auto p-4 space-y-3">
           {cart.items.length === 0 && <p className="text-sm text-slate-400 text-center py-10">Cart is empty. Tap a product to add it.</p>}
@@ -143,24 +158,24 @@ export default function PosPage() {
             <div key={item.id} className="flex items-center gap-2">
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-slate-700 truncate">{item.name}</p>
-                <p className="text-xs text-slate-400">{formatCurrency(item.price, currencySymbol)} each</p>
+                <p className="text-xs text-slate-500">{formatCurrency(item.price, currencySymbol)} each</p>
               </div>
               <div className="flex items-center gap-1">
                 <button
-                  className="h-6 w-6 rounded-full bg-slate-100 flex items-center justify-center"
+                  className="h-6 w-6 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center"
                   onClick={() => cart.updateQuantity(item.id, item.quantity - 1)}
                 >
                   <Minus className="h-3 w-3" />
                 </button>
-                <span className="w-6 text-center text-sm">{item.quantity}</span>
+                <span className="w-6 text-center text-sm text-slate-800 font-medium">{item.quantity}</span>
                 <button
-                  className="h-6 w-6 rounded-full bg-slate-100 flex items-center justify-center"
+                  className="h-6 w-6 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center"
                   onClick={() => cart.updateQuantity(item.id, item.quantity + 1)}
                 >
                   <Plus className="h-3 w-3" />
                 </button>
               </div>
-              <p className="w-16 text-right text-sm font-medium">{formatCurrency(item.total, currencySymbol)}</p>
+              <p className="w-16 text-right text-sm font-medium text-slate-800">{formatCurrency(item.total, currencySymbol)}</p>
               <button onClick={() => cart.removeItem(item.id)} className="text-slate-300 hover:text-red-500">
                 <Trash2 className="h-4 w-4" />
               </button>
@@ -170,7 +185,7 @@ export default function PosPage() {
         <div className="p-4 border-t border-slate-100 space-y-2">
           <div className="flex justify-between text-sm text-slate-500">
             <span>Subtotal</span>
-            <span>{formatCurrency(subtotal, currencySymbol)}</span>
+            <span className="text-slate-700">{formatCurrency(subtotal, currencySymbol)}</span>
           </div>
           <div className="flex justify-between text-base font-semibold text-slate-800">
             <span>Total</span>
@@ -207,8 +222,8 @@ export default function PosPage() {
                 onClick={() => resumeHeld(o)}
                 className="w-full text-left p-3 rounded-xl hover:bg-slate-50 border border-slate-100 mb-2"
               >
-                <p className="text-sm font-medium">{o.label}</p>
-                <p className="text-xs text-slate-400">{o.items.length} items</p>
+                <p className="text-sm font-medium text-slate-700">{o.label}</p>
+                <p className="text-xs text-slate-500">{o.items.length} items</p>
               </button>
             ))}
           </Card>
@@ -220,7 +235,7 @@ export default function PosPage() {
           total={total}
           onClose={() => setCheckoutOpen(false)}
           onComplete={async (method) => {
-            await completeSale(db, {
+            const order = await completeSale(db, {
               items: cart.items,
               customerId: cart.customerId,
               orderDiscount: cart.orderDiscount,
@@ -230,7 +245,18 @@ export default function PosPage() {
             toast.success("Sale completed");
             cart.clear();
             setCheckoutOpen(false);
+            setReceiptOrder(order);
           }}
+        />
+      )}
+
+      {receiptOrder && (
+        <ReceiptDialog
+          order={receiptOrder}
+          customer={customers.find((c) => c.id === receiptOrder.customerId) ?? null}
+          settings={settings ?? null}
+          currencySymbol={currencySymbol}
+          onClose={() => setReceiptOrder(null)}
         />
       )}
     </div>
@@ -250,13 +276,13 @@ function ProductTile({ product, symbol, onClick }: { product: Product; symbol: s
           // eslint-disable-next-line @next/next/no-img-element
           <img src={product.image} alt={product.name} className="h-full w-full object-cover" />
         ) : (
-          <span className="text-slate-300 text-xs">No image</span>
+          <span className="text-slate-400 text-xs">No image</span>
         )}
       </div>
       <p className="text-sm font-medium text-slate-700 truncate">{product.name}</p>
       <div className="flex items-center justify-between mt-1">
         <span className="text-sm font-semibold text-[#0070E0]">{formatCurrency(product.price, symbol)}</span>
-        <span className={`text-[10px] ${outOfStock ? "text-red-500" : "text-slate-400"}`}>{outOfStock ? "Out" : `${product.stock} left`}</span>
+        <span className={`text-[10px] ${outOfStock ? "text-red-500" : "text-slate-500"}`}>{outOfStock ? "Out" : `${product.stock} left`}</span>
       </div>
     </button>
   );
@@ -301,13 +327,43 @@ function CheckoutDialog({
           <Button size="lg" variant="outline" loading={loading === "CREDIT"} onClick={() => pay("CREDIT")}>
             Credit (Pay Later)
           </Button>
-          <Button size="lg" variant="ghost" onClick={() => window.print()}>
-            <Printer className="h-4 w-4" /> Print Preview
-          </Button>
         </div>
         <Button variant="ghost" className="w-full mt-3" onClick={onClose}>
           Cancel
         </Button>
+      </Card>
+    </div>
+  );
+}
+
+function ReceiptDialog({
+  order,
+  customer,
+  settings,
+  currencySymbol,
+  onClose,
+}: {
+  order: Order;
+  customer: Customer | null;
+  settings: BusinessSettings | null;
+  currencySymbol: string;
+  onClose: () => void;
+}) {
+  return (
+    <div className="fixed inset-0 z-50 bg-slate-900/40 flex items-center justify-center p-4">
+      <Card className="w-full max-w-sm p-4 relative max-h-[85vh] overflow-y-auto">
+        <button onClick={onClose} className="absolute top-3 right-3 text-slate-400 hover:text-slate-600">
+          <X className="h-5 w-5" />
+        </button>
+        <Receipt order={order} customer={customer} settings={settings} currencySymbol={currencySymbol} />
+        <div className="flex gap-2 mt-4 no-print">
+          <Button className="flex-1" onClick={() => window.print()}>
+            <Printer className="h-4 w-4" /> Print Receipt
+          </Button>
+          <Button variant="outline" onClick={onClose}>
+            Done
+          </Button>
+        </div>
       </Card>
     </div>
   );
