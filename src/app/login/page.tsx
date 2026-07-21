@@ -56,29 +56,32 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-white flex">
-      {/* Left: Illustration */}
-      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
-        <Image
-          src="/assets/person-illustration.png"
-          alt="UniPOS Dashboard"
-          fill
-          className="object-cover"
-          priority
-        />
+      {/* Left: Illustration - moved to show full image */}
+      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden items-center justify-start pl-12">
+        <div className="relative w-full h-full flex items-center">
+          <Image
+            src="/assets/person-illustration.png"
+            alt="UniPOS Dashboard"
+            width={500}
+            height={600}
+            className="object-contain"
+            priority
+          />
+        </div>
       </div>
 
       {/* Right: Login Form */}
       <div className="w-full lg:w-1/2 flex flex-col">
         <div className="flex-1 flex items-center justify-center px-6 sm:px-10">
           <div className="w-full max-w-sm">
-            {/* Logo - Centered */}
-            <div className="flex justify-center mb-8">
+            {/* Logo - Smaller but still prominent */}
+            <div className="flex justify-center mb-6">
               <Image
                 src="/assets/unipos-logo.png"
                 alt="UniPOS"
-                width={200}
-                height={60}
-                className="h-16 w-auto"
+                width={180}
+                height={50}
+                className="h-12 w-auto"
               />
             </div>
 
