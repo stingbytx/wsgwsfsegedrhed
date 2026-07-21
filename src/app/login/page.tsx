@@ -5,10 +5,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input, Label } from "@/components/ui/input";
-import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
 
 const schema = z.object({
@@ -55,48 +55,110 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#F8FAFC] p-4">
-      <Card className="w-full max-w-md p-8">
-        <div className="text-center mb-6">
-          <div className="mx-auto mb-3 h-12 w-12 rounded-2xl bg-[#0070E0] flex items-center justify-center text-white font-bold text-xl">U</div>
-          <h1 className="text-2xl font-semibold text-slate-800">Welcome back</h1>
-          <p className="text-sm text-slate-500 mt-1">Sign in to your Universal POS</p>
-        </div>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div>
-            <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" placeholder="you@business.com" {...register("email")} />
-            {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email.message}</p>}
-          </div>
-          <div>
-            <div className="flex items-center justify-between">
-              <Label htmlFor="password">Password</Label>
-              <Link href="/forgot-password" className="text-xs text-[#0070E0] hover:underline mb-1.5">
-                Forgot password?
-              </Link>
+    <div className="min-h-screen bg-white flex">
+      {/* Left: Illustration */}
+      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
+        <Image
+          src="/assets/person-illustration.png"
+          alt="UniPOS Dashboard"
+          fill
+          className="object-cover"
+          priority
+        />
+      </div>
+
+      {/* Right: Login Form */}
+      <div className="w-full lg:w-1/2 flex flex-col">
+        <div className="flex-1 flex items-center justify-center px-6 sm:px-10">
+          <div className="w-full max-w-sm">
+            {/* Logo */}
+            <div className="mb-8">
+              <Image
+                src="/assets/unipos-logo.png"
+                alt="UniPOS"
+                width={120}
+                height={40}
+                className="h-10 w-auto"
+              />
             </div>
-            <Input id="password" type="password" placeholder="••••••••" {...register("password")} />
-            {errors.password && <p className="text-xs text-red-500 mt-1">{errors.password.message}</p>}
+
+            {/* Heading */}
+            <h1 className="text-3xl font-black text-slate-900 mb-2">Welcome back</h1>
+            <p className="text-sm text-slate-500 mb-8">Sign in to your Universal POS</p>
+
+            {/* Form */}
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+              <div>
+                <Label htmlFor="email" className="text-slate-700">
+                  Email
+                </Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="you@business.com"
+                  {...register("email")}
+                  className="mt-1.5"
+                />
+                {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email.message}</p>}
+              </div>
+
+              <div>
+                <div className="flex items-center justify-between mb-1.5">
+                  <Label htmlFor="password" className="text-slate-700">
+                    Password
+                  </Label>
+                  <Link href="/forgot-password" className="text-xs text-[#0070E0] hover:underline">
+                    Forgot password?
+                  </Link>
+                </div>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="••••••••"
+                  {...register("password")}
+                />
+                {errors.password && <p className="text-xs text-red-500 mt-1">{errors.password.message}</p>}
+              </div>
+
+              <Button type="submit" className="w-full h-11 rounded-full text-base font-semibold" loading={loading}>
+                Sign in
+              </Button>
+            </form>
+
+            {/* Divider */}
+            <div className="flex items-center gap-3 my-6">
+              <div className="h-px bg-slate-200 flex-1" />
+              <span className="text-xs text-slate-400">OR</span>
+              <div className="h-px bg-slate-200 flex-1" />
+            </div>
+
+            {/* Google Login */}
+            <Button
+              variant="outline"
+              className="w-full h-11 rounded-full text-base font-semibold"
+              onClick={onGoogle}
+              loading={googleLoading}
+            >
+              Continue with Google
+            </Button>
+
+            {/* Sign Up Link */}
+            <p className="text-center text-sm text-slate-600 mt-6">
+              Don&apos;t have an account?{" "}
+              <Link href="/signup" className="text-[#0070E0] font-semibold hover:underline">
+                Sign up
+              </Link>
+            </p>
           </div>
-          <Button type="submit" className="w-full" loading={loading}>
-            Sign In
-          </Button>
-        </form>
-        <div className="flex items-center gap-3 my-5">
-          <div className="h-px bg-slate-200 flex-1" />
-          <span className="text-xs text-slate-400">OR</span>
-          <div className="h-px bg-slate-200 flex-1" />
         </div>
-        <Button variant="outline" className="w-full" onClick={onGoogle} loading={googleLoading}>
-          Continue with Google
-        </Button>
-        <p className="text-center text-sm text-slate-500 mt-6">
-          Don&apos;t have an account?{" "}
-          <Link href="/signup" className="text-[#0070E0] font-medium hover:underline">
-            Sign up
-          </Link>
-        </p>
-      </Card>
+
+        {/* Footer */}
+        <footer className="text-center text-xs text-slate-500 py-4 border-t border-slate-100">
+          © 2026 UniPOS. All rights reserved.
+          <br />
+          Proudly made in Sri Lanka
+        </footer>
+      </div>
     </div>
   );
 }
