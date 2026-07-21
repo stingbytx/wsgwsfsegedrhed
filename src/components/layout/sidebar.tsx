@@ -40,9 +40,10 @@ export function Sidebar() {
         <Image
           src="/assets/unipos-logo.png"
           alt="UniPOS"
-          width={140}
-          height={40}
-          className="h-8 w-auto"
+          width={160}
+          height={50}
+          className="h-10 w-auto"
+          priority
         />
       </div>
       

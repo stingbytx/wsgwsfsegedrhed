@@ -58,7 +58,7 @@ export default function SignupPage() {
         {/* LEFT - 50% - Illustration fills entire left side */}
         <div className="hidden lg:flex lg:w-1/2 items-center justify-center overflow-hidden bg-white">
           <Image
-            src="/assets/person-illustration.png"
+            src="/assets/person-illustration.webp"
             alt="UniPOS Dashboard"
             width={800}
             height={1000}
@@ -75,9 +75,10 @@ export default function SignupPage() {
               <Image
                 src="/assets/unipos-logo.png"
                 alt="UniPOS"
-                width={152}
-                height={47}
-                className="h-11 w-auto"
+                width={172}
+                height={57}
+                className="h-13 w-auto"
+                priority
               />
             </div>
 

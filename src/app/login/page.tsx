@@ -61,7 +61,7 @@ export default function LoginPage() {
         {/* LEFT - 50% - Illustration fills entire left side */}
         <div className="hidden lg:flex lg:w-1/2 items-center justify-center overflow-hidden bg-white">
           <Image
-            src="/assets/person-illustration.png"
+            src="/assets/person-illustration.webp"
             alt="UniPOS Dashboard"
             width={800}
             height={1000}
@@ -78,9 +78,10 @@ export default function LoginPage() {
               <Image
                 src="/assets/unipos-logo.png"
                 alt="UniPOS"
-                width={160}
-                height={50}
-                className="h-12 w-auto"
+                width={180}
+                height={60}
+                className="h-14 w-auto"
+                priority
               />
             </div>
 
