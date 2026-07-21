@@ -71,20 +71,22 @@ export default function LoginPage() {
       <div className="w-full lg:w-1/2 flex flex-col">
         <div className="flex-1 flex items-center justify-center px-6 sm:px-10">
           <div className="w-full max-w-sm">
-            {/* Logo */}
-            <div className="mb-8">
+            {/* Logo - Centered */}
+            <div className="flex justify-center mb-8">
               <Image
                 src="/assets/unipos-logo.png"
                 alt="UniPOS"
-                width={120}
-                height={40}
-                className="h-10 w-auto"
+                width={200}
+                height={60}
+                className="h-16 w-auto"
               />
             </div>
 
-            {/* Heading */}
-            <h1 className="text-3xl font-black text-slate-900 mb-2">Welcome back</h1>
-            <p className="text-sm text-slate-500 mb-8">Sign in to your Universal POS</p>
+            {/* Heading - Centered */}
+            <h1 className="text-3xl font-black text-slate-900 mb-2 text-center">Welcome Back</h1>
+            
+            {/* Subheading - Centered */}
+            <p className="text-sm text-slate-500 mb-8 text-center">Sign in to your UniPOS Account</p>
 
             {/* Form */}
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
