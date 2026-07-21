@@ -55,13 +55,13 @@ export default function SignupPage() {
     <div className="min-h-screen bg-white flex flex-col">
       {/* Main Content */}
       <div className="flex-1 flex">
-        {/* LEFT - 50% - Illustration (fills full left side) */}
-        <div className="hidden lg:flex lg:w-1/2 items-center justify-center overflow-hidden">
+        {/* LEFT - 50% - Illustration fills entire left side */}
+        <div className="hidden lg:flex lg:w-1/2 items-center justify-center overflow-hidden bg-white">
           <Image
             src="/assets/person-illustration.png"
             alt="UniPOS Dashboard"
-            width={500}
-            height={600}
+            width={800}
+            height={1000}
             className="w-full h-full object-cover"
             priority
           />
@@ -70,7 +70,7 @@ export default function SignupPage() {
         {/* RIGHT - 50% - Signup Form */}
         <div className="w-full lg:w-1/2 flex items-center justify-center px-6 sm:px-10">
           <div className="w-full max-w-md">
-            {/* Logo - Reduced by 5% (from h-12 to h-11.4, but we'll use h-11) */}
+            {/* Logo - Reduced by 5% */}
             <div className="flex justify-center mb-6">
               <Image
                 src="/assets/unipos-logo.png"
@@ -81,10 +81,10 @@ export default function SignupPage() {
               />
             </div>
 
-            {/* Heading - Same size as login page (text-3xl) */}
+            {/* Heading - Same size as login page */}
             <h1 className="text-3xl font-bold text-slate-900 text-center mb-2">Create Account</h1>
 
-            {/* Subheading - Same size as login page (text-sm) */}
+            {/* Subheading - Same size as login page */}
             <p className="text-sm text-slate-500 text-center mb-8">Sign up for your UniPOS Account</p>
 
             {/* Form */}

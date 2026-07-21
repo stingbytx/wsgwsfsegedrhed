@@ -58,14 +58,14 @@ export default function LoginPage() {
     <div className="min-h-screen bg-white flex flex-col">
       {/* Main Content */}
       <div className="flex-1 flex">
-        {/* LEFT - 50% - Illustration */}
-        <div className="hidden lg:flex lg:w-1/2 items-center justify-center">
+        {/* LEFT - 50% - Illustration fills entire left side */}
+        <div className="hidden lg:flex lg:w-1/2 items-center justify-center overflow-hidden bg-white">
           <Image
             src="/assets/person-illustration.png"
             alt="UniPOS Dashboard"
-            width={500}
-            height={600}
-            className="object-contain"
+            width={800}
+            height={1000}
+            className="w-full h-full object-cover"
             priority
           />
         </div>
