@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import Image from "next/image";
 import {
   LayoutDashboard,
   ShoppingCart,
@@ -34,15 +35,17 @@ export function Sidebar() {
 
   return (
     <aside className="w-60 shrink-0 h-screen sticky top-0 bg-white border-r border-slate-100 flex flex-col">
-      <div className="p-5 flex items-center gap-2">
-        <div className="h-9 w-9 rounded-xl bg-[#0070E0] flex items-center justify-center text-white font-bold">U</div>
-        <div>
-          <p className="font-semibold text-slate-800 leading-tight">Universal POS</p>
-          <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-[#009CDE]/10 text-[#009CDE]">
-            Full Access
-          </span>
-        </div>
+      {/* Logo - Shrunk to fit */}
+      <div className="p-4 flex items-center justify-center">
+        <Image
+          src="/assets/unipos-logo.png"
+          alt="UniPOS"
+          width={140}
+          height={40}
+          className="h-8 w-auto"
+        />
       </div>
+      
       <nav className="flex-1 px-3 space-y-1">
         {NAV.map(({ href, label, icon: Icon }) => {
           const active = pathname.startsWith(href);
@@ -61,13 +64,42 @@ export function Sidebar() {
           );
         })}
       </nav>
-      <div className="p-3">
+
+      {/* Footer Links */}
+      <div className="px-3 py-3 border-t border-slate-100 space-y-1">
+        <Link
+          href="/about-us"
+          className="block text-xs text-slate-500 hover:text-slate-700 px-3 py-1.5 rounded-lg hover:bg-slate-50"
+        >
+          About Us
+        </Link>
+        <Link
+          href="/terms-and-conditions"
+          className="block text-xs text-slate-500 hover:text-slate-700 px-3 py-1.5 rounded-lg hover:bg-slate-50"
+        >
+          Terms & Conditions
+        </Link>
+        <Link
+          href="/contact"
+          className="block text-xs text-slate-500 hover:text-slate-700 px-3 py-1.5 rounded-lg hover:bg-slate-50"
+        >
+          Contact Us
+        </Link>
+      </div>
+
+      {/* Sign Out Button */}
+      <div className="p-3 border-t border-slate-100">
         <button
           onClick={signOut}
           className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-500 hover:bg-slate-50"
         >
           <LogOut className="h-4 w-4" /> Sign out
         </button>
+      </div>
+
+      {/* Copyright */}
+      <div className="px-3 py-2 text-center text-[10px] text-slate-400">
+        © 2026 UniPOS
       </div>
     </aside>
   );

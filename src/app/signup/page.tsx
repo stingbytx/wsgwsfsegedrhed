@@ -68,7 +68,7 @@ export default function SignupPage() {
         </div>
 
         {/* RIGHT - 50% - Signup Form */}
-        <div className="w-full lg:w-1/2 flex items-center justify-center px-6 sm:px-10">
+        <div className="w-full lg:w-1/2 flex flex-col items-center justify-center px-6 sm:px-10">
           <div className="w-full max-w-md">
             {/* Logo - Reduced by 5% */}
             <div className="flex justify-center mb-6">
@@ -169,16 +169,14 @@ export default function SignupPage() {
                 Sign in
               </Link>
             </p>
+
+            {/* Copyright - One Line */}
+            <p className="text-center text-xs text-slate-500 mt-8">
+              © 2026 UniPOS. All rights reserved. Proudly made in Sri Lanka
+            </p>
           </div>
         </div>
       </div>
-
-      {/* Footer */}
-      <footer className="text-center text-xs text-slate-500 py-4 border-t border-slate-100">
-        © 2026 UniPOS. All rights reserved.
-        <br />
-        Proudly made in Sri Lanka
-      </footer>
     </div>
   );
 }
