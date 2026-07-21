@@ -53,76 +53,57 @@ export default function SignupPage() {
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
-      {/* Main content area - full height */}
-      <div className="flex-1 flex justify-between items-center">
-        {/* LEFT SIDE - 55% - Illustration with watercolor background */}
-        <div className="hidden lg:flex w-[55%] h-full relative items-center justify-center overflow-hidden">
-          {/* Blue watercolor background - subtle, 70% opacity */}
-          <div
-            className="absolute inset-0 opacity-70"
-            style={{
-              background:
-                "radial-gradient(circle at 30% 20%, rgba(59, 130, 246, 0.3), transparent 50%), radial-gradient(circle at 70% 60%, rgba(59, 130, 246, 0.25), transparent 60%)",
-            }}
+      {/* Main Content */}
+      <div className="flex-1 flex">
+        {/* LEFT - 50% - Illustration (fills full left side) */}
+        <div className="hidden lg:flex lg:w-1/2 items-center justify-center overflow-hidden">
+          <Image
+            src="/assets/person-illustration.png"
+            alt="UniPOS Dashboard"
+            width={500}
+            height={600}
+            className="w-full h-full object-cover"
+            priority
           />
-          {/* Illustration - centered, object-fit contain */}
-          <div className="relative z-10 flex items-center justify-center w-full h-full">
-            <Image
-              src="/assets/person-illustration.png"
-              alt="UniPOS Dashboard"
-              width={600}
-              height={700}
-              className="object-contain"
-              priority
-            />
-          </div>
         </div>
 
-        {/* RIGHT SIDE - 45% - Signup Form */}
-        <div className="w-full lg:w-[45%] flex items-center justify-center px-6 sm:px-10 md:px-0 md:pr-12">
-          <div style={{ width: "420px", maxWidth: "460px" }}>
-            {/* LOGO - Centered, 10px margin bottom */}
-            <div className="flex justify-center mb-[10px]">
+        {/* RIGHT - 50% - Signup Form */}
+        <div className="w-full lg:w-1/2 flex items-center justify-center px-6 sm:px-10">
+          <div className="w-full max-w-md">
+            {/* Logo - Reduced by 5% (from h-12 to h-11.4, but we'll use h-11) */}
+            <div className="flex justify-center mb-6">
               <Image
                 src="/assets/unipos-logo.png"
                 alt="UniPOS"
-                width={140}
-                height={40}
-                className="h-10 w-auto"
+                width={152}
+                height={47}
+                className="h-11 w-auto"
               />
             </div>
 
-            {/* HEADING - Create Account, 42px, weight 700, color #111827 */}
-            <h1 className="text-[42px] font-bold text-[#111827] text-center mb-2">Create Account</h1>
+            {/* Heading - Same size as login page (text-3xl) */}
+            <h1 className="text-3xl font-bold text-slate-900 text-center mb-2">Create Account</h1>
 
-            {/* SUBTITLE - 16px, color #6B7280, 40px spacing below */}
-            <p className="text-[16px] text-[#6B7280] text-center mb-10">Sign up for your UniPOS Account</p>
+            {/* Subheading - Same size as login page (text-sm) */}
+            <p className="text-sm text-slate-500 text-center mb-8">Sign up for your UniPOS Account</p>
 
-            {/* FORM */}
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-              {/* STORE NAME FIELD */}
+            {/* Form */}
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
               <div>
-                <Label
-                  htmlFor="storeName"
-                  className="text-[15px] font-[600] text-[#1F2937] mb-[10px] block"
-                >
+                <Label htmlFor="storeName" className="text-slate-700 font-semibold">
                   Store Name
                 </Label>
                 <Input
                   id="storeName"
                   placeholder="My Shop"
                   {...register("storeName")}
-                  className="h-14 rounded-[14px] border border-[#E5E7EB] bg-white px-4 text-slate-800 placeholder:text-slate-400 focus:border-[#0070E0] focus:ring-[3px] focus:ring-[rgba(0,112,224,0.12)] focus:outline-none transition-all"
+                  className="mt-1.5"
                 />
                 {errors.storeName && <p className="text-xs text-red-500 mt-1">{errors.storeName.message}</p>}
               </div>
 
-              {/* EMAIL FIELD */}
               <div>
-                <Label
-                  htmlFor="email"
-                  className="text-[15px] font-[600] text-[#1F2937] mb-[10px] block"
-                >
+                <Label htmlFor="email" className="text-slate-700 font-semibold">
                   Email
                 </Label>
                 <Input
@@ -130,14 +111,13 @@ export default function SignupPage() {
                   type="email"
                   placeholder="you@business.com"
                   {...register("email")}
-                  className="h-14 rounded-[14px] border border-[#E5E7EB] bg-white px-4 text-slate-800 placeholder:text-slate-400 focus:border-[#0070E0] focus:ring-[3px] focus:ring-[rgba(0,112,224,0.12)] focus:outline-none transition-all"
+                  className="mt-1.5"
                 />
                 {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email.message}</p>}
               </div>
 
-              {/* PASSWORD FIELD */}
               <div>
-                <Label htmlFor="password" className="text-[15px] font-[600] text-[#1F2937] mb-[10px] block">
+                <Label htmlFor="password" className="text-slate-700 font-semibold">
                   Password
                 </Label>
                 <Input
@@ -145,17 +125,13 @@ export default function SignupPage() {
                   type="password"
                   placeholder="••••••••"
                   {...register("password")}
-                  className="h-14 rounded-[14px] border border-[#E5E7EB] bg-white px-4 text-slate-800 placeholder:text-slate-400 focus:border-[#0070E0] focus:ring-[3px] focus:ring-[rgba(0,112,224,0.12)] focus:outline-none transition-all"
+                  className="mt-1.5"
                 />
                 {errors.password && <p className="text-xs text-red-500 mt-1">{errors.password.message}</p>}
               </div>
 
-              {/* CONFIRM PASSWORD FIELD */}
               <div>
-                <Label
-                  htmlFor="confirmPassword"
-                  className="text-[15px] font-[600] text-[#1F2937] mb-[10px] block"
-                >
+                <Label htmlFor="confirmPassword" className="text-slate-700 font-semibold">
                   Confirm Password
                 </Label>
                 <Input
@@ -163,34 +139,33 @@ export default function SignupPage() {
                   type="password"
                   placeholder="••••••••"
                   {...register("confirmPassword")}
-                  className="h-14 rounded-[14px] border border-[#E5E7EB] bg-white px-4 text-slate-800 placeholder:text-slate-400 focus:border-[#0070E0] focus:ring-[3px] focus:ring-[rgba(0,112,224,0.12)] focus:outline-none transition-all"
+                  className="mt-1.5"
                 />
                 {errors.confirmPassword && (
                   <p className="text-xs text-red-500 mt-1">{errors.confirmPassword.message}</p>
                 )}
               </div>
 
-              {/* CREATE ACCOUNT BUTTON - Gradient, 54px height, rounded 999px */}
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full h-[54px] rounded-[999px] bg-gradient-to-b from-[#0070E0] to-[#0052CC] text-white font-bold text-[16px] hover:from-[#0060cc] hover:to-[#004ab3] transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_10px_30px_rgba(0,0,0,0.05)]"
+                className="w-full h-11 rounded-full bg-gradient-to-b from-[#0070E0] to-[#0052CC] text-white font-semibold text-base hover:from-[#0060cc] hover:to-[#004ab3] transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? "Creating account..." : "Create Account"}
               </button>
             </form>
 
-            {/* DIVIDER - OR */}
+            {/* Divider */}
             <div className="flex items-center gap-3 my-6">
-              <div className="h-px bg-[#E5E7EB] flex-1" />
-              <span className="text-xs text-[#6B7280]">OR</span>
-              <div className="h-px bg-[#E5E7EB] flex-1" />
+              <div className="h-px bg-slate-200 flex-1" />
+              <span className="text-xs text-slate-400">OR</span>
+              <div className="h-px bg-slate-200 flex-1" />
             </div>
 
-            {/* BOTTOM TEXT - Centered, signin link blue */}
-            <p className="text-center text-[16px] text-[#6B7280]">
+            {/* Sign In Link */}
+            <p className="text-center text-sm text-slate-600">
               Already have an account?{" "}
-              <Link href="/login" className="text-[#0070E0] font-bold hover:underline">
+              <Link href="/login" className="text-[#0070E0] font-semibold hover:underline">
                 Sign in
               </Link>
             </p>
@@ -198,8 +173,8 @@ export default function SignupPage() {
         </div>
       </div>
 
-      {/* FOOTER - Centered at bottom */}
-      <footer className="text-center text-xs text-[#6B7280] py-6 px-4 border-t border-[#E5E7EB] bg-white">
+      {/* Footer */}
+      <footer className="text-center text-xs text-slate-500 py-4 border-t border-slate-100">
         © 2026 UniPOS. All rights reserved.
         <br />
         Proudly made in Sri Lanka
