@@ -68,13 +68,13 @@ export function Sidebar() {
       {/* Footer Links */}
       <div className="px-3 py-3 border-t border-slate-100 space-y-1">
         <Link
-          href="/about-us"
+          href="/about"
           className="block text-xs text-slate-500 hover:text-slate-700 px-3 py-1.5 rounded-lg hover:bg-slate-50"
         >
           About Us
         </Link>
         <Link
-          href="/terms-and-conditions"
+          href="/terms"
           className="block text-xs text-slate-500 hover:text-slate-700 px-3 py-1.5 rounded-lg hover:bg-slate-50"
         >
           Terms & Conditions
@@ -95,11 +95,6 @@ export function Sidebar() {
         >
           <LogOut className="h-4 w-4" /> Sign out
         </button>
-      </div>
-
-      {/* Copyright */}
-      <div className="px-3 py-2 text-center text-[10px] text-slate-400">
-        © 2026 UniPOS
       </div>
     </aside>
   );

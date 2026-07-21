@@ -154,8 +154,8 @@ export default function LoginPage() {
               </Link>
             </p>
 
-            {/* Copyright - One Line */}
-            <p className="text-center text-xs text-slate-500 mt-8">
+            {/* Copyright - One Line - 20px down */}
+            <p className="text-center text-xs text-slate-500 mt-12">
               © 2026 UniPOS. All rights reserved. Proudly made in Sri Lanka
             </p>
           </div>
