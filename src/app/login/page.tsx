@@ -59,7 +59,7 @@ export default function LoginPage() {
       {/* Main content area - full height */}
       <div className="flex-1 flex justify-between items-center">
         {/* LEFT SIDE - 55% - Illustration with watercolor background */}
-        <div className="hidden lg:flex w-[55%] h-full relative items-center justify-center overflow-hidden">
+        <div className="hidden lg:flex lg:w-[55%] h-full relative items-center justify-center overflow-hidden">
           {/* Blue watercolor background - subtle, 70% opacity */}
           <div
             className="absolute inset-0 opacity-70"
