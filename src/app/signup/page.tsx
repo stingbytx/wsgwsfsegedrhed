@@ -7,7 +7,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
-import { Button } from "@/components/ui/button";
 import { Input, Label } from "@/components/ui/input";
 import { toast } from "sonner";
 
@@ -53,59 +52,77 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white flex">
-      {/* Left: Illustration - Same as login page */}
-      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden items-center justify-start pl-12">
-        <div className="relative w-full h-full flex items-center">
-          <Image
-            src="/assets/person-illustration.png"
-            alt="UniPOS Dashboard"
-            width={500}
-            height={600}
-            className="object-contain"
-            priority
+    <div className="min-h-screen bg-white flex flex-col">
+      {/* Main content area - full height */}
+      <div className="flex-1 flex justify-between items-center">
+        {/* LEFT SIDE - 55% - Illustration with watercolor background */}
+        <div className="hidden lg:flex w-[55%] h-full relative items-center justify-center overflow-hidden">
+          {/* Blue watercolor background - subtle, 70% opacity */}
+          <div
+            className="absolute inset-0 opacity-70"
+            style={{
+              background:
+                "radial-gradient(circle at 30% 20%, rgba(59, 130, 246, 0.3), transparent 50%), radial-gradient(circle at 70% 60%, rgba(59, 130, 246, 0.25), transparent 60%)",
+            }}
           />
+          {/* Illustration - centered, object-fit contain */}
+          <div className="relative z-10 flex items-center justify-center w-full h-full">
+            <Image
+              src="/assets/person-illustration.png"
+              alt="UniPOS Dashboard"
+              width={600}
+              height={700}
+              className="object-contain"
+              priority
+            />
+          </div>
         </div>
-      </div>
 
-      {/* Right: Signup Form */}
-      <div className="w-full lg:w-1/2 flex flex-col">
-        <div className="flex-1 flex items-center justify-center px-6 sm:px-10">
-          <div className="w-full max-w-sm">
-            {/* Logo - Smaller but still prominent */}
-            <div className="flex justify-center mb-6">
+        {/* RIGHT SIDE - 45% - Signup Form */}
+        <div className="w-full lg:w-[45%] flex items-center justify-center px-6 sm:px-10 md:px-0 md:pr-12">
+          <div style={{ width: "420px", maxWidth: "460px" }}>
+            {/* LOGO - Centered, 10px margin bottom */}
+            <div className="flex justify-center mb-[10px]">
               <Image
                 src="/assets/unipos-logo.png"
                 alt="UniPOS"
-                width={180}
-                height={50}
-                className="h-12 w-auto"
+                width={140}
+                height={40}
+                className="h-10 w-auto"
               />
             </div>
 
-            {/* Heading - Centered */}
-            <h1 className="text-3xl font-black text-slate-900 mb-2 text-center">Create Account</h1>
-            
-            {/* Subheading - Centered */}
-            <p className="text-sm text-slate-500 mb-8 text-center">Sign up for your UniPOS Account</p>
+            {/* HEADING - Create Account, 42px, weight 700, color #111827 */}
+            <h1 className="text-[42px] font-bold text-[#111827] text-center mb-2">Create Account</h1>
 
-            {/* Form */}
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+            {/* SUBTITLE - 16px, color #6B7280, 40px spacing below */}
+            <p className="text-[16px] text-[#6B7280] text-center mb-10">Sign up for your UniPOS Account</p>
+
+            {/* FORM */}
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              {/* STORE NAME FIELD */}
               <div>
-                <Label htmlFor="storeName" className="text-slate-700">
+                <Label
+                  htmlFor="storeName"
+                  className="text-[15px] font-[600] text-[#1F2937] mb-[10px] block"
+                >
                   Store Name
                 </Label>
                 <Input
                   id="storeName"
                   placeholder="My Shop"
                   {...register("storeName")}
-                  className="mt-1.5"
+                  className="h-14 rounded-[14px] border border-[#E5E7EB] bg-white px-4 text-slate-800 placeholder:text-slate-400 focus:border-[#0070E0] focus:ring-[3px] focus:ring-[rgba(0,112,224,0.12)] focus:outline-none transition-all"
                 />
                 {errors.storeName && <p className="text-xs text-red-500 mt-1">{errors.storeName.message}</p>}
               </div>
 
+              {/* EMAIL FIELD */}
               <div>
-                <Label htmlFor="email" className="text-slate-700">
+                <Label
+                  htmlFor="email"
+                  className="text-[15px] font-[600] text-[#1F2937] mb-[10px] block"
+                >
                   Email
                 </Label>
                 <Input
@@ -113,13 +130,14 @@ export default function SignupPage() {
                   type="email"
                   placeholder="you@business.com"
                   {...register("email")}
-                  className="mt-1.5"
+                  className="h-14 rounded-[14px] border border-[#E5E7EB] bg-white px-4 text-slate-800 placeholder:text-slate-400 focus:border-[#0070E0] focus:ring-[3px] focus:ring-[rgba(0,112,224,0.12)] focus:outline-none transition-all"
                 />
                 {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email.message}</p>}
               </div>
 
+              {/* PASSWORD FIELD */}
               <div>
-                <Label htmlFor="password" className="text-slate-700">
+                <Label htmlFor="password" className="text-[15px] font-[600] text-[#1F2937] mb-[10px] block">
                   Password
                 </Label>
                 <Input
@@ -127,13 +145,17 @@ export default function SignupPage() {
                   type="password"
                   placeholder="••••••••"
                   {...register("password")}
-                  className="mt-1.5"
+                  className="h-14 rounded-[14px] border border-[#E5E7EB] bg-white px-4 text-slate-800 placeholder:text-slate-400 focus:border-[#0070E0] focus:ring-[3px] focus:ring-[rgba(0,112,224,0.12)] focus:outline-none transition-all"
                 />
                 {errors.password && <p className="text-xs text-red-500 mt-1">{errors.password.message}</p>}
               </div>
 
+              {/* CONFIRM PASSWORD FIELD */}
               <div>
-                <Label htmlFor="confirmPassword" className="text-slate-700">
+                <Label
+                  htmlFor="confirmPassword"
+                  className="text-[15px] font-[600] text-[#1F2937] mb-[10px] block"
+                >
                   Confirm Password
                 </Label>
                 <Input
@@ -141,40 +163,47 @@ export default function SignupPage() {
                   type="password"
                   placeholder="••••••••"
                   {...register("confirmPassword")}
-                  className="mt-1.5"
+                  className="h-14 rounded-[14px] border border-[#E5E7EB] bg-white px-4 text-slate-800 placeholder:text-slate-400 focus:border-[#0070E0] focus:ring-[3px] focus:ring-[rgba(0,112,224,0.12)] focus:outline-none transition-all"
                 />
-                {errors.confirmPassword && <p className="text-xs text-red-500 mt-1">{errors.confirmPassword.message}</p>}
+                {errors.confirmPassword && (
+                  <p className="text-xs text-red-500 mt-1">{errors.confirmPassword.message}</p>
+                )}
               </div>
 
-              <Button type="submit" className="w-full h-11 rounded-full text-base font-semibold" loading={loading}>
-                Create Account
-              </Button>
+              {/* CREATE ACCOUNT BUTTON - Gradient, 54px height, rounded 999px */}
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full h-[54px] rounded-[999px] bg-gradient-to-b from-[#0070E0] to-[#0052CC] text-white font-bold text-[16px] hover:from-[#0060cc] hover:to-[#004ab3] transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_10px_30px_rgba(0,0,0,0.05)]"
+              >
+                {loading ? "Creating account..." : "Create Account"}
+              </button>
             </form>
 
-            {/* Divider */}
+            {/* DIVIDER - OR */}
             <div className="flex items-center gap-3 my-6">
-              <div className="h-px bg-slate-200 flex-1" />
-              <span className="text-xs text-slate-400">OR</span>
-              <div className="h-px bg-slate-200 flex-1" />
+              <div className="h-px bg-[#E5E7EB] flex-1" />
+              <span className="text-xs text-[#6B7280]">OR</span>
+              <div className="h-px bg-[#E5E7EB] flex-1" />
             </div>
 
-            {/* Sign In Link */}
-            <p className="text-center text-sm text-slate-600">
+            {/* BOTTOM TEXT - Centered, signin link blue */}
+            <p className="text-center text-[16px] text-[#6B7280]">
               Already have an account?{" "}
-              <Link href="/login" className="text-[#0070E0] font-semibold hover:underline">
+              <Link href="/login" className="text-[#0070E0] font-bold hover:underline">
                 Sign in
               </Link>
             </p>
           </div>
         </div>
-
-        {/* Footer */}
-        <footer className="text-center text-xs text-slate-500 py-4 border-t border-slate-100">
-          © 2026 UniPOS. All rights reserved.
-          <br />
-          Proudly made in Sri Lanka
-        </footer>
       </div>
+
+      {/* FOOTER - Centered at bottom */}
+      <footer className="text-center text-xs text-[#6B7280] py-6 px-4 border-t border-[#E5E7EB] bg-white">
+        © 2026 UniPOS. All rights reserved.
+        <br />
+        Proudly made in Sri Lanka
+      </footer>
     </div>
   );
 }
