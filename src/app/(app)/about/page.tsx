@@ -25,10 +25,6 @@ export default function AboutPage() {
         <ul className="space-y-3 text-slate-700">
           <li className="flex items-start gap-3">
             <span className="text-[#0070E0] font-bold">✓</span>
-            <span>Barcode scanning and product management</span>
-          </li>
-          <li className="flex items-start gap-3">
-            <span className="text-[#0070E0] font-bold">✓</span>
             <span>Customer relationship management with credit tracking</span>
           </li>
           <li className="flex items-start gap-3">
@@ -53,10 +49,10 @@ export default function AboutPage() {
       <div className="bg-slate-50 rounded-lg p-8">
         <h2 className="text-2xl font-semibold text-slate-900 mb-4">Why Choose UniPOS?</h2>
         <p className="text-slate-700 leading-relaxed mb-4">
-          UniPOS is a subsidiary of DotcomOne, combining enterprise reliability with small business affordability. All your business data is stored securely in your browser—no cloud dependency, no monthly server fees.
+          UniPOS is a subsidiary of DotcomOne, combining enterprise reliability with small business affordability. All your business data is stored securely in your browser - no cloud dependency, no monthly server fees.
         </p>
         <p className="text-slate-700 leading-relaxed">
-          We believe every business deserves access to professional POS technology. That's why UniPOS is designed to be intuitive, powerful, and completely yours.
+          We believe every business deserves access to professional POS technology. That&apos;s why UniPOS is designed to be intuitive, powerful, and completely yours.
         </p>
       </div>
     </div>

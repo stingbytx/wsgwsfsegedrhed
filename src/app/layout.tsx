@@ -16,29 +16,51 @@ const geistMono = Geist_Mono({
 const SITE_URL = "https://unipos.lk";
 
 const SITE_KEYWORDS = [
-  "UniPOS",
-  "POS Software",
-  "Point of Sale System",
-  "Billing Software",
-  "Cloud POS",
-  "Retail POS",
-  "Restaurant POS",
-  "Inventory Management",
-  "Sales Management",
-  "Business Software",
-  "Multi Store POS",
-  "POS Sri Lanka",
-  "DotcomOne",
+  // Primary
+  "web based POS system",
+  "sri lankan pos",
+  "dotcomone pos",
+  "free pos",
+  "manuja Damsara",
+  "browser based POS software",
+  "offline POS system",
+  "POS software for small businesses",
+  "retail POS system",
+  "restaurant POS software",
+  "inventory management POS",
+  "point of sale software",
+  "affordable POS system",
+  // Secondary
+  "barcode POS system",
+  "inventory tracking software",
+  "sales management software",
+  "customer management POS",
+  "pharmacy POS software",
+  "supermarket POS system",
+  "shop billing software",
+  "receipt printing software",
+  "business analytics software",
+  "offline billing software",
+  // Long-tail
+  "best POS system for small businesses",
+  "affordable POS software without monthly fees",
+  "browser based POS system for retail stores",
+  "offline POS software with inventory management",
+  "POS system for supermarkets and pharmacies",
+  "easy to use POS software for restaurants",
+  "local data storage POS system",
+  "POS software without cloud subscription",
+  "simple billing software for small shops",
 ];
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "UniPOS | Modern Cloud Point of Sale (POS) Software for Businesses",
+    default: "UniPOS – Modern Web-Based POS System for Retail, Restaurants & Shops",
     template: "%s | UniPOS",
   },
   description:
-    "UniPOS is a modern cloud-based Point of Sale (POS) software for retailers, restaurants, cafés, supermarkets, pharmacies, and businesses. Manage sales, inventory, customers, billing, reports, and more from anywhere.",
+    "UniPOS is a modern browser-based POS system for retailers, restaurants, pharmacies, and supermarkets. Manage sales, inventory, customers, reports, and receipts securely with no cloud dependency or monthly server fees.",
   keywords: SITE_KEYWORDS,
   authors: [{ name: "DotcomOne" }],
   creator: "DotcomOne",
@@ -61,15 +83,15 @@ export const metadata: Metadata = {
     type: "website",
     url: SITE_URL,
     siteName: "UniPOS",
-    title: "UniPOS | Smart Cloud POS Software",
+    title: "UniPOS – Modern Web-Based POS System for Retail, Restaurants & Shops",
     description:
-      "Manage sales, inventory, billing, customers, and reports with UniPOS. A modern cloud-based POS solution developed as a subsidiary of DotcomOne.",
+      "UniPOS is a powerful and affordable Point of Sale solution designed for retailers, restaurants, pharmacies, and supermarkets. Manage products, inventory, customers, sales, and reports from one simple browser-based system.",
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "UniPOS | Cloud POS Software",
-    description: "A powerful cloud POS system for businesses. Fast, secure, and easy to use.",
+    title: "UniPOS – Modern Web-Based POS System",
+    description: "Browser-based POS with local data storage. No cloud dependency, no monthly server fees. Built for retail, restaurants & shops.",
   },
 };
 
