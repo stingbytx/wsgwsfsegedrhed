@@ -16,7 +16,10 @@ export function Receipt({ order, customer, settings, currencySymbol }: ReceiptPr
     <div id="receipt-print-area" className="print-area mx-auto max-w-xs bg-white p-4 font-mono text-[12px] text-black">
       <div className="text-center mb-2">
         <p className="font-bold text-sm">{settings?.storeName || "Universal POS"}</p>
-        {settings?.receiptFooter === undefined && null}
+        {settings?.storePhone && (
+          <p className="text-[10px]">{settings.storePhone}</p>
+        )}
+        <p className="text-[10px] text-gray-500 italic">Powered by UniPOS</p>
       </div>
       <div className="border-t border-dashed border-black my-2" />
       <div className="flex justify-between">

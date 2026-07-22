@@ -36,7 +36,7 @@ export function Sidebar() {
   return (
     <aside className="w-60 shrink-0 h-screen sticky top-0 bg-white border-r border-slate-100 flex flex-col">
       {/* Logo - Shrunk to fit */}
-      <div className="p-4 flex items-center justify-center">
+      <div className="p-4 flex items-center justify-start">
         <Image
           src="/assets/unipos-logo.png"
           alt="UniPOS"

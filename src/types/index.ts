@@ -165,6 +165,7 @@ export interface TaxRate {
 export interface BusinessSettings {
   id: string; // singleton "default"
   storeName: string;
+  storePhone?: string;
   logo?: string | null;
   currency: string;
   currencySymbol: string;
