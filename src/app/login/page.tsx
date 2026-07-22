@@ -63,9 +63,10 @@ export default function LoginPage() {
           <Image
             src="/assets/person-illustration.webp"
             alt="UniPOS Dashboard"
-            width={800}
-            height={1000}
+            width={2048}
+            height={2048}
             className="w-full h-full object-cover"
+            quality={100}
             priority
           />
         </div>
@@ -78,9 +79,10 @@ export default function LoginPage() {
               <Image
                 src="/assets/unipos-logo.png"
                 alt="UniPOS"
-                width={180}
-                height={60}
+                width={360}
+                height={120}
                 className="h-14 w-auto"
+                quality={100}
                 priority
               />
             </div>

@@ -42,7 +42,8 @@ export function Sidebar() {
           alt="UniPOS"
           width={160}
           height={50}
-          className="h-10 w-auto"
+          className="h-5 w-auto"
+          quality={100}
           priority
         />
       </div>

@@ -60,9 +60,10 @@ export default function SignupPage() {
           <Image
             src="/assets/person-illustration.webp"
             alt="UniPOS Dashboard"
-            width={800}
-            height={1000}
+            width={2048}
+            height={2048}
             className="w-full h-full object-cover"
+            quality={100}
             priority
           />
         </div>
@@ -75,9 +76,10 @@ export default function SignupPage() {
               <Image
                 src="/assets/unipos-logo.png"
                 alt="UniPOS"
-                width={172}
-                height={57}
+                width={344}
+                height={114}
                 className="h-13 w-auto"
+                quality={100}
                 priority
               />
             </div>
